@@ -22,7 +22,7 @@ class EmpGuiCtk(customtkinter.CTk):
 
 
         # Data Entry Form
-        # 'ID' Label and Entry Widgets
+        # 'Class No' Label and Entry Widgets
         self.id_label = self.newCtkLabel('Class No')
         self.id_label.place(x=10, y=40)
         self.id_entry = self.newCtkEntry()
@@ -34,26 +34,26 @@ class EmpGuiCtk(customtkinter.CTk):
         self.name_entry = self.newCtkEntry()
         self.name_entry.place(x=100, y=100)
 
-        # 'Role' Label and Combo Box Widgets
-        self.role_label = self.newCtkLabel('Course')
-        self.role_label.place(x=10, y=160)
-        self.role_entry = self.newCtkEntry()
-        self.role_entry.place(x=100, y=160)
+        # 'Course' Label and Combo Box Widgets
+        self.course_label = self.newCtkLabel('Course')
+        self.course_label.place(x=10, y=160)
+        self.course_entry = self.newCtkEntry()
+        self.course_entry.place(x=100, y=160)
 
-        # 'Gender' Label and Combo Box Widgets
-        self.gender_label = self.newCtkLabel('BMI')
-        self.gender_label.place(x=10, y=220)
-        self.gender_entry = self.newCtkEntry()
-        self.gender_entry.place(x=100, y=220)
+        # 'BMI' Label and Combo Box Widgets
+        self.bmi_label = self.newCtkLabel('BMI')
+        self.bmi_label.place(x=10, y=220)
+        self.bmi_entry = self.newCtkEntry()
+        self.bmi_entry.place(x=100, y=220)
 
         # 'Status' Label and Combo Box Widgets
-        self.status_label = self.newCtkLabel('Sport')
-        self.status_label.place(x=10, y=280)
-        self.status_cboxVar = StringVar()
-        self.status_cboxOptions = ['Basketball', 'Football', 'Bowling', 'Chess', 'Running', 'Badminton', 'Weightlifting']
-        self.status_cbox = self.newCtkComboBox(options=self.status_cboxOptions, 
-                                    entryVariable=self.status_cboxVar)
-        self.status_cbox.place(x=100, y=280)
+        self.sport_label = self.newCtkLabel('Sport')
+        self.sport_label.place(x=10, y=280)
+        self.sport_cboxVar = StringVar()
+        self.sport_cboxOptions = ['Basketball', 'Football', 'Bowling', 'Chess', 'Running', 'Badminton', 'Weightlifting']
+        self.sport_cbox = self.newCtkComboBox(options=self.sport_cboxOptions, 
+                                    entryVariable=self.sport_cboxVar)
+        self.sport_cbox.place(x=100, y=280)
 
         self.add_img = ImageTk.PhotoImage(Image.open("/Users/epcprogrammer/Desktop/EEE111/SimpleDb2/src/add.png").resize((20,20)))
         self.remove_img = ImageTk.PhotoImage(Image.open("/Users/epcprogrammer/Desktop/EEE111/SimpleDb2/src/trash.png").resize((20,20)))
@@ -69,13 +69,13 @@ class EmpGuiCtk(customtkinter.CTk):
                                 borderColor='#05A312',
                                 image=self.add_img
                                 )
-        self.add_button.place(x=50,y=350)
+        self.add_button.place(x=50,y=400)
 
         self.new_button = self.newCtkButton(text='Clear',
                                 borderColor='#FFCC70',
                                 onClickHandler=lambda:self.clear_form(True),
                                 image=self.clear_img)
-        self.new_button.place(x=50,y=400)
+        self.new_button.place(x=50,y=350)
 
         self.update_button = self.newCtkButton(text='Update Details',
                                     onClickHandler=self.update_entry,
@@ -88,7 +88,7 @@ class EmpGuiCtk(customtkinter.CTk):
                                     hoverColor='#AE0000',
                                     borderColor='#E40404',
                                     image=self.remove_img)
-        self.delete_button.place(x=690,y=400)
+        self.delete_button.place(x=50,y=450)
 
         self.export_button = self.newCtkButton(text='Export to CSV',
                                     onClickHandler=self.export_to_csv,
@@ -98,7 +98,7 @@ class EmpGuiCtk(customtkinter.CTk):
         self.import_button = self.newCtkButton(text='Import CSV',
                                     onClickHandler=self.import_csv,
                                     image=self.import_img)
-        self.import_button.place(x=50, y=450)
+        self.import_button.place(x=690, y=400)
 
         self.exportjson_button = self.newCtkButton(text='Export to JSON',
                                     onClickHandler=self.export_to_json,
@@ -241,19 +241,19 @@ class EmpGuiCtk(customtkinter.CTk):
 
     # Handles
     def add_to_treeview(self):
-        global employees
-        employees = self.db.fetch_employees()
+        global entries
+        entries = self.db.fetch_student()
         self.tree.delete(*self.tree.get_children())
         my_tag='Normal'
-        for employee in employees:
-            if employee[3] >= 18.5 and employee[3]<= 24.9:
+        for entry in entries:
+            if entry[3] >= 18.5 and entry[3]<= 24.9:
                 my_tag='Healthy'
-            elif employee[3]> 24.9:
+            elif entry[3]> 24.9:
                 my_tag='Overweight'
-            elif employee[3]< 18.5:
+            elif entry[3]< 18.5:
                 my_tag='Underweight'
-            print(employee)
-            self.tree.insert('', END, values=employee, tags=(my_tag))
+            print(entry)
+            self.tree.insert('', END, values=entry, tags=(my_tag))
 
     def clear_form(self, *clicked):
         if clicked:
@@ -261,9 +261,9 @@ class EmpGuiCtk(customtkinter.CTk):
             self.tree.focus('')
         self.id_entry.delete(0, END)
         self.name_entry.delete(0, END)
-        self.role_entry.delete(0, END)
-        self.gender_entry.delete(0,END)
-        self.status_cboxVar.set('Basketball')
+        self.course_entry.delete(0, END)
+        self.bmi_entry.delete(0,END)
+        self.sport_cboxVar.set('Basketball')
 
     def read_display_data(self, event):
         selected_item = self.tree.focus()
@@ -272,25 +272,25 @@ class EmpGuiCtk(customtkinter.CTk):
             self.clear_form()
             self.id_entry.insert(0, row[0])
             self.name_entry.insert(0, row[1])
-            self.role_entry.insert(0, row[2])
-            self.gender_entry.insert(0, row[3])
-            self.status_cboxVar.set(row[4])
+            self.course_entry.insert(0, row[2])
+            self.bmi_entry.insert(0, row[3])
+            self.sport_cboxVar.set(row[4])
         else:
             pass
 
     def add_entry(self):
         id=self.id_entry.get()
         name=self.name_entry.get()
-        role=self.role_entry.get()
-        gender=float(self.gender_entry.get())
-        status=self.status_cboxVar.get()
+        course=self.course_entry.get()
+        bmi=float(self.bmi_entry.get())
+        sport=self.sport_cboxVar.get()
 
-        if not (id and name and role and gender and status):
+        if not (id and name and course and bmi and sport):
             messagebox.showerror('Error', 'Enter all fields.')
         elif self.db.id_exists(id):
             messagebox.showerror('Error', 'ID already exists')
         else:
-            self.db.insert_employee(id, name, role, gender, status)
+            self.db.insert_student(id, name, course, bmi, sport)
             self.add_to_treeview()
             self.clear_form()
             messagebox.showinfo('Success', 'Data has been inserted')
@@ -301,7 +301,7 @@ class EmpGuiCtk(customtkinter.CTk):
             messagebox.showerror('Error', 'Choose an employee to delete')
         else:
             id = self.id_entry.get()
-            self.db.delete_employee(id)
+            self.db.delete_student(id)
             self.add_to_treeview()
             self.clear_form()
             messagebox.showinfo('Success', 'Data has been deleted')
@@ -313,10 +313,10 @@ class EmpGuiCtk(customtkinter.CTk):
         else:
             id=self.id_entry.get()
             name=self.name_entry.get()
-            role=self.role_entry.get()
-            gender=float(self.gender_entry.get())
-            status=self.status_cboxVar.get()
-            self.db.update_employee(name, role, gender, status, id)
+            course=self.course_entry.get()
+            bmi=float(self.bmi_entry.get())
+            sport=self.sport_cboxVar.get()
+            self.db.update_student(name, course, bmi, sport, id)
             self.add_to_treeview()
             self.clear_form()
             messagebox.showinfo('Success', 'Data has been updated')

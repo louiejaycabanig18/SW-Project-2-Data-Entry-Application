@@ -1,12 +1,12 @@
 class EmpDbEntry:
     def __init__(self,
                  id=1,
-                 name='Employee Name',
-                 gender='Male',
-                 role='Training',
-                 status='Remote'):
+                 name='Student Name',
+                 course='',
+                 bmi='0',
+                 sport='Basketball'):
         self.id = id
         self.name = name
-        self.gender = gender
-        self.role = role
-        self.status = status
+        self.course = course
+        self.bmi = bmi
+        self.sport = sport

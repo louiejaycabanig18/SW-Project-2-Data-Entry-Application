@@ -24,7 +24,7 @@ class EmpDb:
         print('TODO: __init__')
 
 
-    def fetch_employees(self):
+    def fetch_student(self):
         """
         - returns a list of tuples containing Employee entry fields
         - example
@@ -35,19 +35,19 @@ class EmpDb:
         tupleList = []
         print('TODO: fetch_orders')
         for entry in self.dbEntries:
-            tupleList.append((entry.id, entry.name, entry.role, entry.gender, entry.status))
+            tupleList.append((entry.id, entry.name, entry.course, entry.bmi, entry.sport))
         return tupleList
 
-    def insert_employee(self, id, name, role, gender, status):
+    def insert_student(self, id, name, course, bmi, sport):
         """
         - inserts an entry in the database
         - no return value
         """
-        newEntry = EmpDbEntry(id=id, name=name, role=role, gender=gender, status=status)
+        newEntry = EmpDbEntry(id=id, name=name, course=course, bmi=bmi, sport=sport)
         self.dbEntries.append(newEntry)
         print('TODO: insert_order')
 
-    def delete_employee(self, id):
+    def delete_student(self, id):
         """
         - deletes the corresponding entry in the database as specified by 'id'
         - no return value
@@ -58,7 +58,7 @@ class EmpDb:
                 self.dbEntries.remove(entry)
 
 
-    def update_employee(self, new_name, new_role, new_gender, new_status, id):
+    def update_student(self, new_name, new_course, new_bmi, new_sport, id):
         """
         - updates the corresponding entry in the database as specified by 'id'
         - no return value
@@ -67,9 +67,9 @@ class EmpDb:
         for entry in self.dbEntries:
             if getattr(entry, "id") == id:
                 entry.name = new_name
-                entry.role = new_role
-                entry.gender = new_gender
-                entry.status = new_status
+                entry.course = new_course
+                entry.bmi = new_bmi
+                entry.sport = new_sport
 
     def export_csv(self):
         """
@@ -86,7 +86,7 @@ class EmpDb:
         print('TODO: export_csv')
         with open(self.dbName, "w") as file:
             for entry in self.dbEntries:
-                file.write(f"{entry.id},{entry.name},{entry.role},{entry.gender},{entry.status} \n")
+                file.write(f"{entry.id},{entry.name},{entry.course},{entry.bmi},{entry.sport} \n")
 
     def import_csv(self):
         print('TODO: import_csv')
@@ -97,17 +97,17 @@ class EmpDb:
             for row in csv_reader:
                 newId = row[0]
                 newName = row[1]
-                newRole = row[2]
-                newGender = float(row[3])
-                newStatus = row[4]
-                self.insert_employee(newId, newName, newRole, newGender, newStatus)
+                newCourse = row[2]
+                newBMI = float(row[3])
+                newSport = row[4]
+                self.insert_student(newId, newName, newCourse, newBMI, newSport)
                 
 
     def export_json(self):
         print('TODO: export_json')
         with open(self.dbNameJSON, "w") as file:
             for entry in self.dbEntries:
-                file.write(f"{entry.id},{entry.name},{entry.role},{entry.gender},{entry.status} \n")
+                file.write(f"{entry.id},{entry.name},{entry.course},{entry.bmi},{entry.sport} \n")
 
 
     def id_exists(self, id):
